@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,10 +45,29 @@ public class Conversacion extends Thread {
                 conversacionAnterior=zonaEscritura.getText();
                 entrada = new ObjectInputStream(personaServ.getInputStream());
                 
-                // Recibe un objeto
-                persona = (PersonaChat) entrada.readObject();
-                System.out.println(conversacionAnterior);
-                zonaEscritura.setText(conversacionAnterior+persona.getMensaje());
+                Object obj=entrada.readObject();
+                
+                if(obj instanceof PersonaChat)
+                {
+                
+                   
+                    System.out.println(conversacionAnterior);
+                    zonaEscritura.setText(conversacionAnterior+((PersonaChat) obj).getMensaje());
+                }
+                else
+                {
+                    if(obj instanceof ArrayList)
+                    {
+                        System.out.println("Pero si entra");
+                        String[] lista=llenarLista((ArrayList) obj);
+                        System.out.println(obj);
+                        venP.getjPanelChat().getjList1().setListData(lista);
+                        for(int i=0; i<lista.length;i++)
+                       {
+                           System.out.println(lista[i]);
+                       }
+                    }
+                }
                 
                 
             }
@@ -67,6 +87,19 @@ public class Conversacion extends Thread {
             }
         }
         
+    }
+
+    private String[] llenarLista(ArrayList l) {
+        
+        
+        String[] lista = new String[l.size()];
+        
+        for(int i=0; i<l.size();i++)
+        {
+            lista[i] = (String) l.get(i);
+        }
+        
+        return lista;
     }
     
     

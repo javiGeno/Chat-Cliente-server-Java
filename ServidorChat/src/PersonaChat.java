@@ -1,5 +1,6 @@
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class PersonaChat implements Serializable{
 
@@ -13,7 +14,9 @@ public class PersonaChat implements Serializable{
         conectado=true;
         nombre=n;
         mensaje=m;
+        
     }
+    
 
     public String getNombre() {
         return nombre;

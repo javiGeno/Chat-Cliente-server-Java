@@ -2,20 +2,22 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
 public class Main {
 
     static final int PUERTO = 6000;
-    public static LinkedList<SocketParticipante> personasConectadas;
     public static ServerSocket servidor;
     public static LlegadaNuevosMensajes conversacion;
+    public static nuevosContactos conectados;
     
     public static void main(String[] arg) throws IOException {
         
-        personasConectadas=new LinkedList<>();
+        
         conversacion=new LlegadaNuevosMensajes();
+        conectados=new nuevosContactos();
         try {
             
              servidor = new ServerSocket(PUERTO);
@@ -25,7 +27,7 @@ public class Main {
                 Socket cliente = servidor.accept(); // Crea objeto
                 SocketParticipante conversadorNuevo=new SocketParticipante(cliente, conversacion);//se le pasa el socket y el objeto observable
                 conversacion.addObserver(conversadorNuevo);//se añade a la clase observable 
-                personasConectadas.add(conversadorNuevo);//se añade a la lista de personas conectadad(puede que no sea necesaria)
+                conectados.addObserver(conversadorNuevo);
                 conversadorNuevo.start();
                
                 

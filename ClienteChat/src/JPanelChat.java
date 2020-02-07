@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 
 
@@ -129,6 +130,14 @@ public class JPanelChat extends javax.swing.JPanel {
 
     public void setjTextArea2(JTextArea jTextArea2) {
         this.jTextArea2 = jTextArea2;
+    }
+
+    public JList<String> getjList1() {
+        return jList1;
+    }
+
+    public void setjList1(JList<String> jList1) {
+        this.jList1 = jList1;
     }
     
     

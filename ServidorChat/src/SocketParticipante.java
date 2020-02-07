@@ -6,6 +6,7 @@ import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -78,8 +79,17 @@ public class SocketParticipante extends Thread implements Observer {
                 }
                 else
                 {
-                    String nombreBorrarLista=recibo.getNombre();
-                    //VACIAR DE LA LISTA DE CONECTADOS A ESE CLIENTE
+                    if(recibo.isConectado())
+                    {
+                       
+                       Main.conectados.nuevoConectado(recibo.getNombre());
+                        
+                    }
+                    else
+                    {
+                       Main.conectados.borrarConectado(recibo.getNombre());
+                       Main.conectados.deleteObserver(this);
+                    }
                 }
                 
              
@@ -109,13 +119,27 @@ public class SocketParticipante extends Thread implements Observer {
         
         try
         {
+            
            
-            // Flujo de salida
-            salida = new ObjectOutputStream(participante.getOutputStream());
-            envio = new PersonaChat(recibo.getNombre(), (String)mensaje);// Se prepara el nuevo mensaje el conversador
-            salida.writeObject(envio);// enviando el objeto SALTA EXCEPTION!
-            System.out.println("Envío realizado al conversador: " + envio.getNombre() + "-" 
-                                                                  + envio.getMensaje());
+            if(o==Main.conversacion && mensaje instanceof String)
+            {
+                // Flujo de salida
+                salida = new ObjectOutputStream(participante.getOutputStream());
+                envio = new PersonaChat(recibo.getNombre(), (String)mensaje);// Se prepara el nuevo mensaje el conversador
+                salida.writeObject(envio);// enviando el objeto SALTA EXCEPTION!
+                System.out.println("Envío realizado al conversador: " + envio.getNombre() + "-" 
+                                                                      + envio.getMensaje());
+           }
+            else
+            {
+                if(o==Main.conectados && mensaje instanceof ArrayList)
+                {
+                    salida = new ObjectOutputStream(participante.getOutputStream());
+                    salida.writeObject((ArrayList<String>)mensaje);
+                    System.out.println("Entra en envio lista");
+                }
+            }
+
             
         }
         catch(IOException e)
