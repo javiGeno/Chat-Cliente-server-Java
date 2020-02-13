@@ -16,6 +16,10 @@ public class JPanelChat extends javax.swing.JPanel {
     public JPanelChat(VentanaPrincipal_1 venP) {
         initComponents();
         this.venP=venP;
+        jTextArea2.setEditable(false);
+        jTextArea2.setLineWrap(true);
+        jTextArea1.setLineWrap(true);
+       
     }
 
     
@@ -99,7 +103,7 @@ public class JPanelChat extends javax.swing.JPanel {
             salida = new ObjectOutputStream(perSer.getOutputStream());
             salida.writeObject(persona);
             jTextArea1.setText("");
-           
+            
         }
         catch(Exception e)
         {

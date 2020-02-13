@@ -73,7 +73,7 @@ public class SocketParticipante extends Thread implements Observer {
                 
                 if(recibo.isConectado() && recibo.getMensaje()!=null)//si ha recibido un objeto mandamos mensaje a todos
                 {
-                    centralMensajes.nuevoMensaje(recibo.getNombre()+":\n  "+recibo.getMensaje()+"\n");
+                    centralMensajes.nuevoMensaje(recibo.getNombre().toUpperCase()+":\n    "+recibo.getMensaje()+"\n\n");
                     
                     System.out.println("Datos recibidos del Cliente: " +recibo.getNombre()+":\n\t"+recibo.getMensaje()+"\n");
                 }
@@ -100,8 +100,8 @@ public class SocketParticipante extends Thread implements Observer {
         
         }catch(IOException | ClassNotFoundException e)
         {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            System.err.println("Se ha desconectado algún cliente");
+            
             try {
                 participante.close();
             } catch (IOException ex) {
